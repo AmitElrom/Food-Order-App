@@ -1,6 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useContext, useReducer } from 'react';
 
+// Utils
 import { isNatural } from '../../../Utils/Validities';
+
+// Contexts
+import CartContext from '../../../Store/CartContext';
 
 // amount reducer for amount state
 // pending - add another case for validity
@@ -13,11 +17,15 @@ const amountReducer = (state, { type, payload }) => {
     }
 }
 
-const Meal = ({ mealData: { mealName, description, price, amount } }) => {
+const Meal = ({ mealData }) => {
 
+    const { mealName, description, price, amount } = mealData;
 
+    const cartCtx = useContext(CartContext);
+    console.log(cartCtx);
+
+    // amount's state that handles amount's value and validity
     const [amountState, dispatchAmount] = useReducer(amountReducer, {
-        // amount's state that handles amount's value and validity
         value: amount,
         isValid: null
     });
@@ -29,10 +37,11 @@ const Meal = ({ mealData: { mealName, description, price, amount } }) => {
             type: 'INPUT_CHANGE',
             payload: e.target.value
         })
+        console.log(mealData);
     }
 
+    // pending - building add function in cart context
     const addMealHandler = () => {
-        console.log(value);
     }
 
     return (
