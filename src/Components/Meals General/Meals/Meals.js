@@ -13,10 +13,10 @@ import MealsContext from '../../../Store/MealsContext';
 const Meals = () => {
 
     // Get the array of all meals from meals context
-    const mealsCtx = useContext(MealsContext);
+    const { _currentValue2: meals } = useContext(MealsContext);
 
     // Mapping meals context
-    const mealsComps = mealsCtx._currentValue2.map(meal => {
+    const mealsComps = meals.map(meal => {
         return <Meal key={meal.id} mealData={meal} />
     })
 
