@@ -1,9 +1,15 @@
 import React from 'react'
 
+import CartButton from '../Cart Button/CartButton'
+
 const Navigation = () => {
     return (
-        <button>Your Cart <span>0</span></button>
+        <div>
+            <h1>React Meals</h1>
+            <CartButton />
+        </div>
     )
 }
 
 export default Navigation
+

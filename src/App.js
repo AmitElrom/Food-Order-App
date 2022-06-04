@@ -1,10 +1,10 @@
-import Header from "./Components/Header/Header Component/Header";
+import Navigation from "./Components/Header/Navigation/Navigation";
 import Meals from "./Components/Meals General/Meals/Meals";
 
 function App() {
   return (
     <div >
-      <Header />
+      <Navigation />
       <Meals />
     </div>
   );
