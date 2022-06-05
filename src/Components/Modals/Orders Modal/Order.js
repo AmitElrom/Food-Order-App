@@ -1,13 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
+
+import CartContext from '../../../Store/CartContext';
 
 const Order = ({ mealData }) => {
 
     // Destructuring meal data
-    const { id, mealName, description, amount, price } = mealData;
+    const { id, mealName, amount, price } = mealData;
+
+    // Destructuring cart context
+    const { deleteAmountHandler } = useContext(CartContext);
+
+    const deleteHandler = () => {
+        deleteAmountHandler(id)
+    }
 
     return (
         <div>
-            <span>{mealName}</span>
+            <p><strong>{mealName}</strong></p>
+            <div>
+                {price}{' '}{`x${amount}`}{' '}
+                <button onClick={deleteHandler} >-</button>
+                <button>+</button>
+            </div>
         </div>
     )
 }

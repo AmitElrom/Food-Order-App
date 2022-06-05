@@ -6,7 +6,8 @@ const CartContext = createContext({
     totalPrice: 0,
     onAddMeal: () => { },
     showCartHandler: () => { },
-    hideCartHandler: () => { }
+    hideCartHandler: () => { },
+    deleteAmountHandler: () => { }
 });
 
 const mealsReducer = (state, { type, payload }) => {
@@ -32,6 +33,21 @@ const mealsReducer = (state, { type, payload }) => {
             return {
                 meals: state.meals,
                 totalPrice
+            }
+        case 'DELETE_AMOUNT':
+
+            const filteredMeals = state.meals.filter(meal => meal.id !== payload)
+            let wantedMeal = state.meals.find(meal => meal.id === payload)
+            wantedMeal.amount -= 1
+            if (wantedMeal.amount === 0) {
+                return {
+                    totalPrice: state.totalPrice,
+                    meals: [...filteredMeals]
+                }
+            }
+            return {
+                totalPrice: state.totalPrice,
+                meals: [...filteredMeals, wantedMeal]
             }
         default:
             return state;
@@ -69,6 +85,17 @@ export const CartProvider = ({ children }) => {
         setIsCartSeen(false)
     }
 
+    const deleteAmountHandler = (mealId) => {
+        setMealsState({
+            type: 'DELETE_AMOUNT',
+            payload: mealId
+        })
+    }
+
+    // const addAmountHandler = () => {
+
+    // }
+
     return (
         <CartContext.Provider
             value={{
@@ -78,7 +105,8 @@ export const CartProvider = ({ children }) => {
                 showCartHandler,
                 hideCartHandler,
                 isCartSeen,
-                totalPrice
+                totalPrice,
+                deleteAmountHandler
             }}>
             {children}
         </CartContext.Provider>
