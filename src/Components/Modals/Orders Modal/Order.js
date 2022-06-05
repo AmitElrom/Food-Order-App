@@ -8,10 +8,14 @@ const Order = ({ mealData }) => {
     const { id, mealName, amount, price } = mealData;
 
     // Destructuring cart context
-    const { deleteAmountHandler } = useContext(CartContext);
+    const { deleteAmountHandler, addAmountHandler } = useContext(CartContext);
 
     const deleteHandler = () => {
         deleteAmountHandler(id)
+    }
+
+    const addHandler = () => {
+        addAmountHandler(id)
     }
 
     return (
@@ -20,7 +24,7 @@ const Order = ({ mealData }) => {
             <div>
                 {price}{' '}{`x${amount}`}{' '}
                 <button onClick={deleteHandler} >-</button>
-                <button>+</button>
+                <button onClick={addHandler} >+</button>
             </div>
         </div>
     )

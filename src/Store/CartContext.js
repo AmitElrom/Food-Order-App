@@ -7,7 +7,8 @@ const CartContext = createContext({
     onAddMeal: () => { },
     showCartHandler: () => { },
     hideCartHandler: () => { },
-    deleteAmountHandler: () => { }
+    deleteAmountHandler: () => { },
+    addAmountHandler: () => { }
 });
 
 const mealsReducer = (state, { type, payload }) => {
@@ -35,11 +36,10 @@ const mealsReducer = (state, { type, payload }) => {
                 totalPrice
             }
         case 'DELETE_AMOUNT':
-
             const filteredMeals = state.meals.filter(meal => meal.id !== payload)
             let wantedMeal = state.meals.find(meal => meal.id === payload)
             wantedMeal.amount -= 1
-            if (wantedMeal.amount === 0) {
+            if (wantedMeal.amount <= 0) {
                 return {
                     totalPrice: state.totalPrice,
                     meals: [...filteredMeals]
@@ -48,6 +48,14 @@ const mealsReducer = (state, { type, payload }) => {
             return {
                 totalPrice: state.totalPrice,
                 meals: [...filteredMeals, wantedMeal]
+            }
+        case 'ADD_AMOUNT':
+            const filteredMeals2 = state.meals.filter(meal => meal.id !== payload)
+            let wantedMeal2 = state.meals.find(meal => meal.id === payload)
+            wantedMeal2.amount += 1
+            return {
+                totalPrice: state.totalPrice,
+                meals: [...filteredMeals2, wantedMeal2]
             }
         default:
             return state;
@@ -92,9 +100,12 @@ export const CartProvider = ({ children }) => {
         })
     }
 
-    // const addAmountHandler = () => {
-
-    // }
+    const addAmountHandler = (mealId) => {
+        setMealsState({
+            type: 'ADD_AMOUNT',
+            payload: mealId
+        })
+    }
 
     return (
         <CartContext.Provider
@@ -106,7 +117,8 @@ export const CartProvider = ({ children }) => {
                 hideCartHandler,
                 isCartSeen,
                 totalPrice,
-                deleteAmountHandler
+                deleteAmountHandler,
+                addAmountHandler
             }}>
             {children}
         </CartContext.Provider>

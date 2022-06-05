@@ -19,10 +19,16 @@ const CartButton = () => {
         setTotalMealsAmount(mealsAmount.reduce((acc, current) => acc + current, 0))
     }, [mealsAmount])
 
-    const clickCartHandler = () => showCartHandler()
-
+    const clickCartHandler = () => {
+        if (meals.length !== 0) {
+            showCartHandler()
+        }
+    }
     return (
-        <button onClick={clickCartHandler} >Your Cart <span>{totalMealsAmount}</span></button>
+        <button onClick={clickCartHandler} >
+            Your Cart
+            <span>{totalMealsAmount}</span>
+        </button>
     )
 }
 
