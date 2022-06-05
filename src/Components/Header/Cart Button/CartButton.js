@@ -4,7 +4,7 @@ import CartContext from '../../../Store/CartContext'
 
 const CartButton = () => {
 
-    const { meals } = useContext(CartContext);
+    const { meals, showCartHandler } = useContext(CartContext);
 
     const [mealsAmount, setMealsAmount] = useState([]);
     const [totalMealsAmount, setTotalMealsAmount] = useState(0);
@@ -13,16 +13,16 @@ const CartButton = () => {
     // pending - maybe to wotk with amount reducer
     useEffect(() => {
         setMealsAmount(meals.map(meal => { return meal.amount }))
-        setTotalMealsAmount(prevValue => {
-            mealsAmount.forEach(amount => {
-                prevValue = prevValue + amount
-            })
-            return prevValue
-        })
-    }, [meals, mealsAmount])
+    }, [meals])
+
+    useEffect(() => {
+        setTotalMealsAmount(mealsAmount.reduce((acc, current) => acc + current, 0))
+    }, [mealsAmount])
+
+    const clickCartHandler = () => showCartHandler()
 
     return (
-        <button>Your Cart <span>{totalMealsAmount}</span></button>
+        <button onClick={clickCartHandler} >Your Cart <span>{totalMealsAmount}</span></button>
     )
 }
 

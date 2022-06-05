@@ -39,8 +39,10 @@ const Meal = ({ mealData }) => {
 
     // pending - add validations
     const addMealHandler = () => {
-        const meal = { ...mealData, amount: value }
-        cartCtx.onAddMeal(meal)
+        if (value !== 0) {
+            const meal = { ...mealData, amount: value }
+            cartCtx.onAddMeal(meal)
+        }
     }
 
     return (
