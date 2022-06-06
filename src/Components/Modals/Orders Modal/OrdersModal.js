@@ -9,6 +9,8 @@ const OrdersModal = () => {
 
     const { meals, totalPrice, hideCartHandler } = useContext(CartContext);
 
+    const price = `$${totalPrice.toFixed(2)}`
+
     const orderComponents = meals.map(meal => {
         return <Order key={meal.id} mealData={meal} />
     })
@@ -26,7 +28,7 @@ const OrdersModal = () => {
     return (
         <Card>
             {orderComponents}
-            <strong>Total Amount <span>${totalPrice}</span></strong>
+            <strong>Total Amount <span>{price}</span></strong>
             <div>
                 <button onClick={closeOrdersHandler} >Close</button>
                 <button onClick={orderHandler} >Order</button>
