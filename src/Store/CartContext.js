@@ -72,10 +72,6 @@ export const CartProvider = ({ children }) => {
     const { meals, totalPrice } = mealsState;
 
     useEffect(() => {
-        setIsCartSeen(meals.length !== 0)
-    }, [meals.length])
-
-    useEffect(() => {
         setMealsState({
             type: 'MEALS_CHANGE'
         })

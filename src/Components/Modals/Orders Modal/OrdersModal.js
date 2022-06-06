@@ -26,7 +26,7 @@ const OrdersModal = () => {
     return (
         <Card>
             {orderComponents}
-            <strong>Total Amount <span>{totalPrice}</span></strong>
+            <strong>Total Amount <span>${totalPrice}</span></strong>
             <div>
                 <button onClick={closeOrdersHandler} >Close</button>
                 <button onClick={orderHandler} >Order</button>

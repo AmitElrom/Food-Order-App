@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 
 import CartContext from '../../../Store/CartContext'
 
+import CartIcon from '../CartIcon';
+import classes from './CartButton.module.css';
+
 const CartButton = () => {
 
     const { meals, showCartHandler } = useContext(CartContext);
@@ -25,9 +28,10 @@ const CartButton = () => {
         }
     }
     return (
-        <button onClick={clickCartHandler} >
-            Your Cart
-            <span>{totalMealsAmount}</span>
+        <button onClick={clickCartHandler} className={classes.button} >
+            <span className={classes.icon} ><CartIcon /></span>
+            <span>Your Cart</span>
+            <span className={classes.badge} >{totalMealsAmount}</span>
         </button>
     )
 }

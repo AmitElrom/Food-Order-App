@@ -22,7 +22,7 @@ const Order = ({ mealData }) => {
         <div>
             <p><strong>{mealName}</strong></p>
             <div>
-                {price}{' '}{`x${amount}`}{' '}
+                {`$${price}`}{' '}{`x${amount}`}{' '}
                 <button onClick={deleteHandler} >-</button>
                 <button onClick={addHandler} >+</button>
             </div>
