@@ -1,10 +1,12 @@
 import React, { useContext, useReducer } from 'react';
 
 // Utils
-import { isNatural } from '../../../Utils/Validities';
+import { isNatural } from '../../../../Utils/Validities';
 
 // Contexts
-import CartContext from '../../../Store/CartContext';
+import CartContext from '../../../../Store/CartContext';
+
+import classes from './Meal.module.css';
 
 // amount reducer for amount state
 // pending - add another case for validity
@@ -46,17 +48,21 @@ const Meal = ({ mealData }) => {
     }
 
     return (
-        <div>
-            <h4>{mealName}</h4>
-            <p>{description}</p>
-            <p>${price}</p>
-            <input
-                type='number'
-                defaultValue={value}
-                min='1'
-                onChange={changeAmountHandler} />
-            <button onClick={addMealHandler} >+Add</button>
-        </div>
+        <li className={classes.meal} >
+            <div >
+                <h3>{mealName}</h3>
+                <div className={classes.description} >{description}</div>
+                <div className={classes.price} >${price}</div>
+            </div>
+            <div>
+                <input
+                    type='number'
+                    defaultValue={value}
+                    min='1'
+                    onChange={changeAmountHandler} />
+                <button onClick={addMealHandler} >+Add</button>
+            </div>
+        </li>
     )
 }
 

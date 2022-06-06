@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 
 import Header from './Components/Header/Header Component/Header';
-import Meals from "./Components/Meals General/Meals/Meals";
-
+import Meals from './Components/Meals General/Meals/Meals';
 import OrdersModal from "./Components/Modals/Orders Modal/OrdersModal";
 
 import CartContext from './Store/CartContext';
@@ -20,7 +19,9 @@ function App() {
     <div className={classes.app} >
       <Header />
       {ordersComponent}
-      <Meals />
+      <main>
+        <Meals />
+      </main>
     </div>
   );
 }

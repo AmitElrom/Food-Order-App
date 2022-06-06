@@ -1,29 +1,15 @@
-import React, { useContext } from 'react'
+import React, { Fragment } from 'react'
 
-// Regualr components
-import Meal from '../Meal/Meal';
-
-// UI components
-import Card from '../../UI/Card/Card';
-
-// Contexts
-import MealsContext from '../../../Store/MealsContext';
-
+import MealsSummary from '../Meals Summary/MealsSummary';
+import AvailableMeals from '../Available Meals/AvailableMeals';
 
 const Meals = () => {
 
-    // Get the array of all meals from meals context
-    const { _currentValue2: meals } = useContext(MealsContext);
-
-    // Mapping meals context
-    const mealsComps = meals.map(meal => {
-        return <Meal key={meal.id} mealData={meal} />
-    })
-
     return (
-        <Card >
-            {mealsComps}
-        </Card>
+        <Fragment>
+            <MealsSummary />
+            <AvailableMeals />
+        </Fragment>
     )
 }
 
