@@ -26,9 +26,9 @@ const Meal = ({ mealData }) => {
     // amount's state that handles amount's value and validity
     const [amountState, dispatchAmount] = useReducer(amountReducer, {
         value: amount,
-        isValid: ''
+        isValid: true
     });
-    const { value } = amountState;
+    const { value, isValid } = amountState;
 
     const changeAmountHandler = (e) => {
         dispatchAmount({
@@ -39,7 +39,7 @@ const Meal = ({ mealData }) => {
 
     // pending - add validations
     const addMealHandler = () => {
-        if (value !== 0) {
+        if (isValid) {
             const meal = { ...mealData, amount: value }
             cartCtx.onAddMeal(meal)
         }
@@ -53,6 +53,7 @@ const Meal = ({ mealData }) => {
             <input
                 type='number'
                 defaultValue={value}
+                min='1'
                 onChange={changeAmountHandler} />
             <button onClick={addMealHandler} >+Add</button>
         </div>
