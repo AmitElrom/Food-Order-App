@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 
 import CartContext from '../../../Store/CartContext';
 
+import classes from './OrdersModal.module.css';
+
 const Order = ({ mealData }) => {
 
     // Destructuring meal data
@@ -21,8 +23,8 @@ const Order = ({ mealData }) => {
     return (
         <div>
             <p><strong>{mealName}</strong></p>
-            <div>
-                {`$${price}`}{' '}{`x${amount}`}{' '}
+            <span>{`$${price}`}{' '}{`x${amount}`}{' '}</span>
+            <div className={classes.actions} >
                 <button onClick={deleteHandler} >-</button>
                 <button onClick={addHandler} >+</button>
             </div>

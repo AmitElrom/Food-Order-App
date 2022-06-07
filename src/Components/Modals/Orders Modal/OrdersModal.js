@@ -22,6 +22,7 @@ const OrdersModal = () => {
     }
 
     const orderHandler = () => {
+        hideCartHandler()
         setTimeout(() => {
             alert('ordered !');
         }, 2000)
