@@ -1,5 +1,7 @@
 import React, { useContext, useReducer } from 'react';
 
+import MealForm from '../Meal Form/MealForm';
+
 // Utils
 import { isNatural } from '../../../../Utils/Validities';
 
@@ -21,7 +23,7 @@ const amountReducer = (state, { type, payload }) => {
 
 const Meal = ({ mealData }) => {
 
-    const { mealName, description, price, amount } = mealData;
+    const { id, mealName, description, price, amount } = mealData;
 
     const cartCtx = useContext(CartContext);
 
@@ -40,7 +42,9 @@ const Meal = ({ mealData }) => {
     }
 
     // pending - add validations
-    const addMealHandler = () => {
+    const addMealHandler = (e) => {
+        e.preventDefault()
+
         if (isValid) {
             const meal = { ...mealData, amount: value }
             cartCtx.onAddMeal(meal)
@@ -54,14 +58,11 @@ const Meal = ({ mealData }) => {
                 <div className={classes.description} >{description}</div>
                 <div className={classes.price} >${price}</div>
             </div>
-            <div>
-                <input
-                    type='number'
-                    defaultValue={value}
-                    min='1'
-                    onChange={changeAmountHandler} />
-                <button onClick={addMealHandler} >+Add</button>
-            </div>
+            <MealForm
+                id={id}
+                defaultValue={value}
+                onChange={changeAmountHandler}
+                addMealHandler={addMealHandler} />
         </li>
     )
 }

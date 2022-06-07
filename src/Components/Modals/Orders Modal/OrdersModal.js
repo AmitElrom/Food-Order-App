@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 
 import Order from './Order';
-import Card from '../../UI/Card/Card';
 
 import CartContext from '../../../Store/CartContext';
+
+import classes from './OrdersModal.module.css';
+import Modal from '../../UI/Modal/Modal';
 
 const OrdersModal = () => {
 
@@ -22,18 +24,21 @@ const OrdersModal = () => {
     const orderHandler = () => {
         setTimeout(() => {
             alert('ordered !');
-        }, 4000)
+        }, 2000)
     }
 
     return (
-        <Card>
+        <Modal>
             {orderComponents}
-            <strong>Total Amount <span>{price}</span></strong>
-            <div>
-                <button onClick={closeOrdersHandler} >Close</button>
-                <button onClick={orderHandler} >Order</button>
+            <div className={classes.total} >
+                <span>Total Amount</span>
+                <span>{price}</span>
             </div>
-        </Card>
+            <div className={classes.actions} >
+                <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
+                <button className={classes.button} onClick={orderHandler} >Order</button>
+            </div>
+        </Modal>
     )
 }
 

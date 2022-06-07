@@ -11,14 +11,14 @@ import classes from './App.module.css';
 
 function App() {
 
-  const { isCartSeen, meals } = useContext(CartContext);
+  const { isCartSeen } = useContext(CartContext);
 
-  const ordersComponent = isCartSeen && meals.length !== 0 && < OrdersModal />
+  const ordersComponent = isCartSeen && < OrdersModal />
 
   return (
     <div className={classes.app} >
-      <Header />
       {ordersComponent}
+      <Header />
       <main>
         <Meals />
       </main>
