@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 
 import Order from './Order';
 
@@ -7,18 +7,11 @@ import CartContext from '../../../Store/CartContext';
 import classes from './OrdersModal.module.css';
 import Modal from '../../UI/Modal/Modal';
 
-const OrderModal = () => {
-
-    return (
-        <Modal>
-            Ordered
-        </Modal>
-    )
-}
 
 const OrdersModal = () => {
 
     const [isOrdered, setIsOrdered] = useState(false);
+    const [price, setPrice] = useState(0);
 
     const { meals, totalPrice, hideCartHandler, cleanCart } = useContext(CartContext);
 
@@ -31,7 +24,7 @@ const OrdersModal = () => {
     }
 
     const orderHandler = () => {
-        hideCartHandler()
+        setPrice(totalPrice);
         setIsOrdered(true)
         cleanCart()
     }
@@ -41,18 +34,31 @@ const OrdersModal = () => {
         <p>For our customers who struggle to decide we recommend on our delectable Schnitzel !</p>
     </div>
 
+    let ordersProcess = <Fragment>
+        {noItemsTxt}
+        {orderComponents}
+        <div className={classes.total} >
+            <span>Total Amount</span>
+            <span>{`$${totalPrice}`}</span>
+        </div>
+        <div className={classes.actions} >
+            <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
+            {meals.length !== 0 && <button className={classes.button} onClick={orderHandler} >Order</button>}
+        </div>
+    </Fragment>
+
+    let ordersOrdered = <Fragment>
+        <h3>Ordered !</h3>
+        <p>Your total is <strong>${price}</strong></p>
+        <p>Enjoy your meal !</p>
+        <div className={classes.actions} >
+            <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
+        </div>
+    </Fragment>
+
     return (
         <Modal>
-            {noItemsTxt}
-            {orderComponents}
-            <div className={classes.total} >
-                <span>Total Amount</span>
-                <span>{`$${totalPrice}`}</span>
-            </div>
-            <div className={classes.actions} >
-                <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
-                {meals.length !== 0 && <button className={classes.button} onClick={orderHandler} >Order</button>}
-            </div>
+            {isOrdered ? ordersOrdered : ordersProcess}
         </Modal>
     )
 }
