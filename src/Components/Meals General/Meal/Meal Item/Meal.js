@@ -47,7 +47,7 @@ const Meal = ({ mealData }) => {
 
         if (isValid) {
             const meal = { ...mealData, amount: value }
-            cartCtx.onAddMeal(meal)
+            cartCtx.addItemHandler(meal)
         }
     }
 

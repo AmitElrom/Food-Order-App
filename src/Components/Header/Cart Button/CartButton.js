@@ -11,6 +11,9 @@ const CartButton = () => {
 
     const [mealsAmount, setMealsAmount] = useState([]);
     const [totalMealsAmount, setTotalMealsAmount] = useState(0);
+    const [isBump, setIsBump] = useState(false);
+
+    const btnClasses = `${classes.button} ${isBump && classes.bump}`
 
     // ? Do I need these two states above ?
     // pending - maybe to wotk with amount reducer
@@ -20,15 +23,13 @@ const CartButton = () => {
 
     useEffect(() => {
         setTotalMealsAmount(mealsAmount.reduce((acc, current) => acc + current, 0))
+        setIsBump(true)
     }, [mealsAmount])
 
-    const clickCartHandler = () => {
-        if (meals.length !== 0) {
-            showCartHandler()
-        }
-    }
+    const clickCartHandler = () => showCartHandler()
+
     return (
-        <button onClick={clickCartHandler} className={classes.button} >
+        <button className={btnClasses} onClick={clickCartHandler} >
             <span className={classes.icon} ><CartIcon /></span>
             <span>Your Cart</span>
             <span className={classes.badge} >{totalMealsAmount}</span>

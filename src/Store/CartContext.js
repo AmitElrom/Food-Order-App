@@ -8,22 +8,96 @@ const CartContext = createContext({
     showCartHandler: () => { },
     hideCartHandler: () => { },
     deleteAmountHandler: () => { },
-    addAmountHandler: () => { }
+    addAmountHandler: () => { },
+    addItemHandler: () => { },
+    deleteItemHandler: () => { },
+    cleanCart: () => { }
 });
+
+const newMealReducer = (state, { payload, type }) => {
+    let updatedMeal;
+    let updatedMeals;
+
+    switch (type) {
+        case 'ADD':
+
+            let existedMealIndex = state.meals.findIndex(meal => meal.id === payload.id);
+            let existedMeal = state.meals[existedMealIndex];
+
+            if (existedMeal) {
+                updatedMeal = {
+                    ...existedMeal,
+                    amount: existedMeal.amount + payload.amount
+                };
+                updatedMeals = [...state.meals];
+                updatedMeals[existedMealIndex] = updatedMeal;
+            } else {
+                updatedMeals = [...state.meals, { ...payload }];
+            }
+            return {
+                meals: updatedMeals,
+                totalPrice: +(state.totalPrice + payload.amount * payload.price).toFixed(2)
+            };
+
+        case 'DELETE':
+
+            let existedMealIndex2 = state.meals.findIndex(meal => meal.id === payload.id);
+
+            let existedMeal2 = state.meals[existedMealIndex2];
+
+            if (existedMeal2) {
+                updatedMeal = {
+                    ...existedMeal2,
+                    amount: existedMeal2.amount - 1
+                };
+                if (existedMeal2.amount === 1) {
+                    let filteredMeals = state.meals.filter(meal => meal.id !== existedMeal2.id)
+                    updatedMeals = [...filteredMeals];
+                } else if (existedMeal2.amount > 1) {
+                    updatedMeals = [...state.meals];
+                    updatedMeals[existedMealIndex2] = updatedMeal;
+                }
+            }
+            return {
+                meals: updatedMeals,
+                totalPrice: +(state.totalPrice - payload.price).toFixed(2)
+            };
+        case 'DELETE_ALL':
+            return {
+                meals: [],
+                totalPrice: 0
+            }
+        default:
+            return state;
+    }
+}
 
 const mealsReducer = (state, { type, payload }) => {
     switch (type) {
         case 'ADD_MEAL':
             // Check if the same meal already exists - 
             //if it exists don't add the meal, just increase the amount
-            let existedMeal = state.meals.find(meal => meal?.id === payload.id)
+
+            let existedMealIndex = state.meals.findIndex(meal => meal?.id === payload.id)
+            let existedMeal = state.meals[existedMealIndex]
+
+            let updatedMeal;
+            let updatedMeals;
 
             if (existedMeal) {
-                existedMeal.amount += payload.amount;
-                const filteredMeals = state.meals.filter(meal => meal?.id !== existedMeal.id)
-                return { meals: [...filteredMeals, existedMeal], totalPrice: state.totalPrice }
+                updatedMeal = {
+                    ...existedMeal,
+                    amount: existedMeal.amount + payload.amount
+                };
+                updatedMeals = [...state.meals];
+                updatedMeals[existedMealIndex] = updatedMeal;
             } else {
-                return { meals: [...state.meals, payload], totalPrice: state.totalPrice }
+                updatedMeal = { ...payload };
+                updatedMeals = state.meals.concat(updatedMeal);
+            }
+            return {
+                meals: updatedMeals,
+                totalPrice: state.totalPrice
             }
         case 'MEALS_CHANGE':
             const totalPrice = state.meals.map(meal => {
@@ -65,7 +139,7 @@ const mealsReducer = (state, { type, payload }) => {
 export const CartProvider = ({ children }) => {
 
     const [isCartSeen, setIsCartSeen] = useState(false);
-    const [mealsState, setMealsState] = useReducer(mealsReducer, {
+    const [mealsState, setMealsState] = useReducer(newMealReducer, {
         meals: [],
         totalPrice: 0
     })
@@ -76,6 +150,24 @@ export const CartProvider = ({ children }) => {
             type: 'MEALS_CHANGE'
         })
     }, [meals])
+
+    // new funcs
+
+    const addItemHandler = (mealData) => {
+        setMealsState({
+            type: 'ADD',
+            payload: mealData
+        })
+    }
+
+    const deleteItemHandler = (mealData) => {
+        setMealsState({
+            type: 'DELETE',
+            payload: mealData
+        })
+    }
+
+    // new funcs
 
     const addMealHandler = (mealData) => {
 
@@ -107,6 +199,12 @@ export const CartProvider = ({ children }) => {
         })
     }
 
+    const cleanCart = () => {
+        setMealsState({
+            type: 'DELETE_ALL'
+        })
+    }
+
     return (
         <CartContext.Provider
             value={{
@@ -118,7 +216,10 @@ export const CartProvider = ({ children }) => {
                 isCartSeen,
                 totalPrice,
                 deleteAmountHandler,
-                addAmountHandler
+                addAmountHandler,
+                addItemHandler,
+                deleteItemHandler,
+                cleanCart
             }}>
             {children}
         </CartContext.Provider>

@@ -10,14 +10,15 @@ const Order = ({ mealData }) => {
     const { id, mealName, amount, price } = mealData;
 
     // Destructuring cart context
-    const { deleteAmountHandler, addAmountHandler } = useContext(CartContext);
+    const { deleteItemHandler, addItemHandler } = useContext(CartContext);
 
     const deleteHandler = () => {
-        deleteAmountHandler(id)
+        deleteItemHandler(mealData)
     }
 
     const addHandler = () => {
-        addAmountHandler(id)
+        let newMealData = { ...mealData, amount: 1 }
+        addItemHandler(newMealData)
     }
 
     return (
