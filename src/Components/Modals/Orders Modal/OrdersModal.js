@@ -15,9 +15,9 @@ const OrdersModal = () => {
 
     const { meals, totalPrice, hideCartHandler, cleanCart } = useContext(CartContext);
 
-    const orderComponents = meals.map(meal => {
+    const orderComponents = <ul className={classes['cart-items']} >{meals.map(meal => {
         return <Order key={meal.id} mealData={meal} />
-    })
+    })}</ul>
 
     const closeOrdersHandler = () => {
         hideCartHandler()
@@ -57,7 +57,7 @@ const OrdersModal = () => {
     </Fragment>
 
     return (
-        <Modal>
+        <Modal >
             {isOrdered ? ordersOrdered : ordersProcess}
         </Modal>
     )
