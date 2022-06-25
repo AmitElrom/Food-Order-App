@@ -11,6 +11,8 @@ import classes from './App.module.css';
 
 function App() {
 
+
+
   const { isCartSeen } = useContext(CartContext);
 
   const ordersComponent = isCartSeen && < OrdersModal />
