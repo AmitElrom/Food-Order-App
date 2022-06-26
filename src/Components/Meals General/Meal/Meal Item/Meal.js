@@ -1,4 +1,5 @@
 import React, { useContext, useReducer } from 'react';
+import axios from 'axios';
 
 import MealForm from '../Meal Form/MealForm';
 
@@ -42,7 +43,7 @@ const Meal = ({ mealData }) => {
     }
 
     // pending - add validations
-    const addMealHandler = (e) => {
+    const addMealHandler = async (e) => {
         e.preventDefault()
 
         if (isValid) {

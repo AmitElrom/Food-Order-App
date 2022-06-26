@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useState } from 'react'
+// import axios from 'axios';
 
 import Order from './Order';
 
@@ -14,6 +15,13 @@ const OrdersModal = () => {
     const [price, setPrice] = useState(0);
 
     const { meals, totalPrice, hideCartHandler, cleanCart } = useContext(CartContext);
+
+    // useEffect(() => {
+    //     (async () => {
+    //         const { data: nameFromFB } = await axios.post('https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cart.json', meals);
+    //         console.log(nameFromFB);
+    //     })()
+    // }, [meals])
 
     const orderComponents = <ul className={classes['cart-items']} >{meals.map(meal => {
         return <Order key={meal.id} mealData={meal} />

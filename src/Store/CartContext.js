@@ -1,4 +1,5 @@
 import { createContext, useState, useReducer, useEffect } from "react";
+import axios from "axios";
 
 const CartContext = createContext({
     meals: [],
@@ -31,8 +32,19 @@ const newMealReducer = (state, { payload, type }) => {
                 };
                 updatedMeals = [...state.meals];
                 updatedMeals[existedMealIndex] = updatedMeal;
+                // update existed meal in firebase
+                // (async () => {
+                //     const { data } = await axios.put('https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/', payload)
+                //     console.log(data);
+                // })()
             } else {
-                updatedMeals = [...state.meals, { ...payload }];
+                updatedMeals = [...state.meals, payload];
+                console.log('hello');
+                // create new meal in firebase
+                (async () => {
+                    const { data } = await axios.post('https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cartMeals.json', payload)
+                    console.log(data);
+                })()
             }
             return {
                 meals: updatedMeals,
@@ -66,70 +78,6 @@ const newMealReducer = (state, { payload, type }) => {
             return {
                 meals: [],
                 totalPrice: 0
-            }
-        default:
-            return state;
-    }
-}
-
-const mealsReducer = (state, { type, payload }) => {
-    switch (type) {
-        case 'ADD_MEAL':
-            // Check if the same meal already exists - 
-            //if it exists don't add the meal, just increase the amount
-
-            let existedMealIndex = state.meals.findIndex(meal => meal?.id === payload.id)
-            let existedMeal = state.meals[existedMealIndex]
-
-            let updatedMeal;
-            let updatedMeals;
-
-            if (existedMeal) {
-                updatedMeal = {
-                    ...existedMeal,
-                    amount: existedMeal.amount + payload.amount
-                };
-                updatedMeals = [...state.meals];
-                updatedMeals[existedMealIndex] = updatedMeal;
-            } else {
-                updatedMeal = { ...payload };
-                updatedMeals = state.meals.concat(updatedMeal);
-            }
-            return {
-                meals: updatedMeals,
-                totalPrice: state.totalPrice
-            }
-        case 'MEALS_CHANGE':
-            const totalPrice = state.meals.map(meal => {
-                const { price, amount } = meal
-                return price * amount
-            }).reduce((acc, price) => acc + price, 0)
-
-            return {
-                meals: state.meals,
-                totalPrice
-            }
-        case 'DELETE_AMOUNT':
-            const filteredMeals = state.meals.filter(meal => meal.id !== payload)
-            let wantedMeal = state.meals.find(meal => meal.id === payload)
-            wantedMeal.amount -= 1
-            if (wantedMeal.amount <= 0) {
-                return {
-                    totalPrice: state.totalPrice,
-                    meals: [...filteredMeals]
-                }
-            }
-            return {
-                totalPrice: state.totalPrice,
-                meals: [...filteredMeals, wantedMeal]
-            }
-        case 'ADD_AMOUNT':
-            const filteredMeals2 = state.meals.filter(meal => meal.id !== payload)
-            let wantedMeal2 = state.meals.find(meal => meal.id === payload)
-            wantedMeal2.amount += 1
-            return {
-                totalPrice: state.totalPrice,
-                meals: [...filteredMeals2, wantedMeal2]
             }
         default:
             return state;

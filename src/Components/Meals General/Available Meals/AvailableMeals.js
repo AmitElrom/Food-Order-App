@@ -25,18 +25,13 @@ const AvailableMeals = () => {
             // from meal objects from firsbase db to meals array
             const loadedMeals = [];
             for (const mealProp in mealsObj) {
-                // setMeals(prevMeals => prevMeals.concat(mealsObj[mealProp]))
                 loadedMeals.push(mealsObj[mealProp])
             }
             setMeals(loadedMeals)
         })()
     }, [])
 
-    useEffect(() => {
-        console.log(meals);
-    }, [meals])
-
-    // Get the array of all meals from meals context
+    // Get the array of all meals from meals context - alternative to firebase
     // const { _currentValue2: meals } = useContext(MealsContext);
 
     // Mapping meals context
