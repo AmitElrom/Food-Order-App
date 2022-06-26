@@ -59,7 +59,7 @@ const AvailableMeals = () => {
 
     return (
         <Fragment>
-            {!error && <Card className={classes.meals} >
+            {!error && !isLoading && <Card className={classes.meals} >
                 {content}
             </Card>}
         </Fragment>

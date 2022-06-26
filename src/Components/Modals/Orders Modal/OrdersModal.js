@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useState } from 'react'
 // import axios from 'axios';
 
+import Checkout from '../Checkout/Checkout';
 import Order from './Order';
 
 import CartContext from '../../../Store/CartContext';
@@ -15,13 +16,6 @@ const OrdersModal = () => {
     const [price, setPrice] = useState(0);
 
     const { meals, totalPrice, hideCartHandler, cleanCart } = useContext(CartContext);
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const { data: nameFromFB } = await axios.post('https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cart.json', meals);
-    //         console.log(nameFromFB);
-    //     })()
-    // }, [meals])
 
     const orderComponents = <ul className={classes['cart-items']} >{meals.map(meal => {
         return <Order key={meal.id} mealData={meal} />
@@ -55,18 +49,18 @@ const OrdersModal = () => {
         </div>
     </Fragment>
 
-    let ordersOrdered = <Fragment>
-        <h3>Ordered !</h3>
-        <p>Your total is <strong>${price}</strong></p>
-        <p>Enjoy your meal !</p>
-        <div className={classes.actions} >
-            <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
-        </div>
-    </Fragment>
+    // let ordersOrdered = <Fragment>
+    //     <h3>Ordered !</h3>
+    //     <p>Your total is <strong>${price}</strong></p>
+    //     <p>Enjoy your meal !</p>
+    //     <div className={classes.actions} >
+    //         <button className={classes['button--alt']} onClick={closeOrdersHandler} >Close</button>
+    //     </div>
+    // </Fragment>
 
     return (
         <Modal >
-            {isOrdered ? ordersOrdered : ordersProcess}
+            {isOrdered ? <Checkout /> : ordersProcess}
         </Modal>
     )
 }
