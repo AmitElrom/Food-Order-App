@@ -7,18 +7,15 @@ import OrdersModal from "./Components/Modals/Orders Modal/OrdersModal";
 import CartContext from './Store/CartContext';
 // import { createPortal } from 'react-dom';
 
-import classes from './App.module.css';
 
 function App() {
-
-
 
   const { isCartSeen } = useContext(CartContext);
 
   const ordersComponent = isCartSeen && < OrdersModal />
 
   return (
-    <div className={classes.app} >
+    <div >
       {ordersComponent}
       <Header />
       <main>
