@@ -1,23 +1,23 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import axios from "axios";
 
-const useHttp = (requestData, applyDataFunc) => {
+const useHttp = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const sendRequest = async () => {
+    const sendRequest = useCallback(async (requestData, applyDataFunc = null) => {
         setIsLoading(true)
         setError(null)
         try {
             const { data } = await axios[requestData.method.toLowerCase()](requestData.url, requestData.body && requestData.body)
-            applyDataFunc(data)
+            applyDataFunc && applyDataFunc(data)
         } catch (err) {
             setError(err.message)
         }
         setIsLoading(false)
-    }
+    }, [])
 
     return {
         isLoading,

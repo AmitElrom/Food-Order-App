@@ -1,5 +1,4 @@
 import React, { useContext, useReducer } from 'react';
-import axios from 'axios';
 
 import MealForm from '../Meal Form/MealForm';
 

@@ -7,7 +7,7 @@ import classes from './OrdersModal.module.css';
 const Order = ({ mealData }) => {
 
     // Destructuring meal data
-    const { id, mealName, amount, price } = mealData;
+    const { mealName, amount, price } = mealData;
 
     // Destructuring cart context
     const { deleteItemHandler, addItemHandler } = useContext(CartContext);

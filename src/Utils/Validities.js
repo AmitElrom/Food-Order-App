@@ -3,7 +3,7 @@ const isNatural = num => {
 }
 
 const isNotEmpty = value => {
-    return value !== '';
+    return value.trim() !== '';
 }
 
 const containsWhitespace = str => {
@@ -14,4 +14,8 @@ const isEmail = str => {
     return str.includes('@') && !containsWhitespace(str);
 }
 
-export { isNatural, isNotEmpty, isEmail }
+const isNumChars = (value, num) => {
+    return value.length === num;
+}
+
+export { isNatural, isNotEmpty, isEmail, isNumChars }

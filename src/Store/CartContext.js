@@ -1,5 +1,4 @@
 import { createContext, useState, useReducer, useEffect } from "react";
-import axios from "axios";
 
 const CartContext = createContext({
     meals: [],
@@ -32,27 +31,8 @@ const newMealReducer = (state, { payload, type }) => {
                 };
                 updatedMeals = [...state.meals];
                 updatedMeals[existedMealIndex] = updatedMeal;
-                // update existed meal in firebase
-                (async () => {
-                    const { data: cartMeals } = await axios.get(`https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cartMeals.json`)
-                    // from object to 
-                    const mealsArr = [];
-                    for (const mealProp in cartMeals) {
-                        let mealObj = cartMeals[mealProp];
-                        mealObj.firebaseId = mealProp;
-                        mealsArr.push(mealObj)
-                    }
-                    const { firebaseId } = mealsArr.find(meal => meal.id === existedMeal.id)
-                    updatedMeal.firebaseId = firebaseId;
-                    const { data } = await axios.put(`https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cartMeals/${firebaseId}.json`, updatedMeal)
-                    console.log(data);
-                })()
             } else {
                 updatedMeals = [...state.meals, payload];
-                // create new meal in firebase
-                (async () => {
-                    await axios.post('https://react-food-order-app-2ce6b-default-rtdb.firebaseio.com/cartMeals.json', payload)
-                })()
             }
             return {
                 meals: updatedMeals,
